@@ -10,27 +10,40 @@ function showLogin() {
   
 
 }
+function showTodo(id)
+{
+  let str=`<p><h1>My TODO</h1></p> <div>`
+    fetch(`https://jsonplaceholder.typicode.com/todos/?userId=${id}`)
+    .then((res)=>res.json())
+    .then((data)=>{
+        data.map((value)=>{
+            str+=`<div class="fs-5"><input type="checkbox" ${value.completed && "checked"}>${value.title}</div>`
+        });
+        content.innerHTML=str+`</div>`;
+    })
+    .catch((err)=>console.log(err));
+}
 function showAlbums(id)
 {
-    let str=""
+    let str=`<p><h1>My Albums</h1><p> <div>`
     fetch(`https://jsonplaceholder.typicode.com/albums/?userId=${id}`)
     .then((res)=>res.json())
     .then((data)=>{
         data.map((value)=>{
-            str+=`<li class="fs-4">${value.title}</li>`
+            str+=`<p class="fs-4">${value.title}</p>`
 
         });
-        content.innerHTML=str;
+        content.innerHTML=str+`</div>`;
     })
     .catch((err)=>console.log(err));
 }
 function showPosts(id) {
-    let str=""
+    let str=`<p><h1>My Posts</h1><p> <div>`
     fetch(`https://jsonplaceholder.typicode.com/posts/?userId=${id}`)
     .then((res)=>res.json())
     .then((data)=>{
         data.map((value)=>{
-            str+=`<b>${value.title}</b>
+            str+=`<b class="fs-5">${value.title}</b>
             <p>${value.body}</p>`
 
         });
@@ -47,7 +60,7 @@ function showProfile(id)
        
       const user = data[0];
             
-      let str = `
+      let str = `<p><h1>My Profile</h1><p>
       <div>
           <p class="fs-1">${user.name}</p>
           <p>${user.username}</p>
@@ -73,24 +86,25 @@ function showHome() {
          <div class="row">
          <div class="d-flex justify-content-between bg-warning text-dark">
          <div class="fs-1">My Space</div>
-            <div id="username"></div>
-            </div>
-            </div>
+            <div id="username" class="fs-3">${selUser.options[userId].text}</div>
+          </div>
+          </div>
             
             <div class="row mt-1 ">
             <div class="d-flex">
-            <div class="p-2">
+            <div class="col-lg-1 p-2">
             <p onclick="showPosts(${userId})">Home</p>
             <p onclick="showAlbums(${userId})">Album</p>
             <p onclick="showProfile(${userId})">Profile</p>
+            <p onclick="showTodo(${userId})">TODO</p>
             <p onclick="showLogin()">Logout</p>
             </div>
-            <div class="p-5" id="content"></div>
+            <div class="col-lg-11" id="content"></div>
             </div>
             </div>
             
             <div class="row">
-            <div class="bg-warning text-dark p-5">
+            <div class="bg-warning text-dark p-3">
                 <p>@Coptright 2025. All rights reserved.</p>
             </div>
             </div>
